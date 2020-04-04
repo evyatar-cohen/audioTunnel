@@ -589,20 +589,18 @@ function getOpen() {
     playPauseAudio();
 }
 
-interact('.slider')    // target elements with the 'slider' class
-    .draggable({                        // make the element fire drag events
-        origin: 'self',                   // (0, 0) will be the element's top-left
-        inertia: true,                    // start inertial movement if thrown
-        modifiers: [
-            interact.modifiers.restrict({
-                restriction: 'self'           // keep the drag coords within the element
-            })
-        ]
-    })
-    .on('dragmove', function (event) {  // call this listener on every dragmove
-        const sliderWidth = interact.getElementRect(event.target.parentNode).width
-        const value = event.pageX / sliderWidth
+const position = { x: 0, y: 0 }
+interact('.draggable').draggable({
+    listeners: {
+        start(event) {
+            console.log(event.type, event.target)
+        },
+        move(event) {
+            position.x += event.dx
+            position.y += event.dy
 
-        event.target.style.paddingLeft = (value * 100) + '%'
-        event.target.setAttribute('data-value', value.toFixed(2))
-    })
+            event.target.style.transform =
+                `translate(${position.x}px, ${position.y}px)`
+        },
+    }
+});

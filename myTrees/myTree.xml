@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<courses>
+    <course id="1" code="101">
+        <title>חדשנות בלמידה במאה ה-21</title>
+        <author>נאור אדיר</author>
+        <logo>2.jpeg</logo>
+        <description>הצטרפו אלינו לפודקאסט המציג את היכולות שלנו לבצע למידה אקטיבית באמצעות שמע בלבד. תנו לאוזניים שלכם לקחת אתכם איתי ותבינו שה אולי לא כל כך מסובך כמו שזה נשמע</description>
+        <lessons>
+            <lesson id="1">
+                <audio duration="01:26">1</audio>
+                <title>שירותיות 101 - פרק א'</title>
+                <description>מציאות רבודה, איפה זה פוגש אותנו? מה ההיסטוריה</description>
+                <interactions> 
+                    <interaction id="1" type="open">
+                        <STC>5</STC>
+                        <q>כתבו לנו כמה שורות על העבודה כי אסף אפס</q>
+                    </interaction>
+                    <interaction id="2" type="multi">
+                        <STC>10</STC>
+                        <q>איפה אבל של רגב?</q>
+                        <a id="1" correct="true">הוא מת</a>
+                        <a id="2" correct="false">לא מת</a>
+                        <a id="3" correct="false">לא מת</a>
+                        <a id="4" correct="false">לא מת</a>
+                        <a id="5" correct="true">הוא מת</a>
+                    </interaction>
+                    <interaction id="3" type="branch">
+                        <STC>23</STC>
+                        <FTC>76</FTC>
+                        <q>איך הייתם מגיבים במצב הזה?</q>
+                        <a id="1" jumpTo="24" until="33.5">מנתק לו בפנים sdsadsad sadasdsa sdasd</a>
+                        <a id="2" jumpTo="40" until="55.5"> dasdsad asdsadsa dsadas צועק עליו בחזרה</a>
+                        <a id="3" jumpTo="56" until="75">מנסה להרגיע אותו ולפתור לו את הבעיה sadsad sadsadsa dsadas</a>
+                        <a id="3" jumpTo="56" until="75">מנסה להרגיע אותו ולפתור לו את הבעיה sadsad sadsadsa dsadas</a>
+                        <a id="3" jumpTo="56" until="75">מנסה להרגיע אותו ולפתור לו את הבעיה sadsad sadsadsa dsadas</a>
+                    </interaction>
+                </interactions>
+            </lesson>
+            <lesson id="2">
+                <audio duration="03:02">1</audio>
+                <title>שירותי ענן, טוב ללמידה?</title>
+                <description>גשדגשדגדש</description>
+                <interactions>
+                    <interaction id="1" type="multi">
+                        <TC>10</TC>
+                        <q>איפה אבל של רגב?</q>
+                        <a id="1" correct="true">הוא מת</a>
+                        <a id="2" correct="false">לא מת</a>
+                        <a id="3" correct="false">לא מת</a>
+                        <a id="4" correct="false">לא מת</a>
+                        <a id="5" correct="true">הוא מת</a>
+                    </interaction>
+                </interactions>
+            </lesson>
+            <lesson id="3">
+                <audio duration="03:02">1</audio>
+                <title>למידה אפקטיבית בעזרת סאונד</title>
+                <description>גשדגשדגדש</description>
+            </lesson>
+            <lesson id="4">
+                <audio duration="03:02">1</audio>
+                <title>הלומדה הראשונה בעולם</title>
+                <description>גשדגשדגדש</description>
+            </lesson>
+            <lesson id="5">
+                <audio duration="03:02">1</audio>
+                <title>גוגל הפכו אותנו לסטודנטים טובים</title>
+                <description>גשדגשדגדש</description>
+            </lesson>
+            <lesson id="6">
+                <audio duration="03:02">1</audio>
+                <title>פודקאסטים, רק ההתחלה</title>
+                <description>גשדגשדגדש</description>
+            </lesson>
+            <lesson id="7">
+                <audio duration="03:02">1</audio>
+                <title>מציאות מדומה והפוטנציאל הגלום </title>
+                <description>גשדגשדגדש</description>
+            </lesson>
+        </lessons>
+    </course>
+    <course id="2" code="102">
+        <title>קורס מספר 2</title>
+        <author>ד"ר זיתוני</author>
+        <logo>2.jpeg</logo>
+        <description>הצטרפו אלינו לפודקאסט המציג את היכולות שלנו לבצע למידה אקטיבית באמצעות שמע בלבד. תנו לאוזניים שלכם לקחת אתכם איתי ותבינו שה אולי לא כל כך מסובך כמו שזה נשמע</description>
+        <lessons>
+            <lesson id="1">
+                <audio duration="03:02">1</audio>
+                <title>ahgur</title>
+                <description>מציאות רבודה, איפה זה פוגש אותנו? מה ההיסטוריה</description>
+            </lesson>
+            <lesson id="2">
+                <audio duration="03:02">1</audio>
+                <title>שירותי ענן, טוב ללמידה?</title>
+                <description>גשדגשדגדש</description>
+            </lesson>
+        </lessons>
+    </course>
+</courses>
+

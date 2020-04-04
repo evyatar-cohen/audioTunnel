@@ -1,0 +1,275 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Rubik|Secular+One|Varela+Round&display=swap');
+
+/*
+
+כותרות
+font-family: 'Secular One', sans-serif;
+תוכן משתמש
+font-family: 'Varela Round', sans-serif;
+עורך
+font-family: 'Rubik', sans-serif;
+
+*/
+
+body {
+    margin: 0 auto
+}
+
+#container {
+    height: 100%;
+}
+
+#bodyApp {
+    position: relative;
+    background: rgb(1,5,26);
+    background: linear-gradient(0deg, rgba(1,5,26,1) 0%, rgba(21,44,79,1) 100%);
+    height: 100vh;
+    background-size: cover;
+    margin-left: 15px;
+    margin-right: 15px;
+    border: 1px #ffffff00 solid;
+    color: #DDDDDD;
+}
+
+#lessonBackground {
+    padding-top: 10vh;
+    width: inherit;
+    height: inherit;
+    background-image: url('../BGArt/playerBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px #ffffff00 solid;
+}
+
+}
+/*audio player panel*/
+#PlayerPanel {
+    position: relative;
+    margin-top: 7vh;
+}
+
+.progressBar {
+    position: relative;
+    height: 15px;
+    margin-top: 2%;
+    margin-bottom: 1%;
+    direction: ltr;
+}
+
+#progressBackground {
+    position: relative;
+    width: 100%;
+    height: 7px;
+    background-color: #DDDDDD;
+}
+
+.progress {
+    position: absolute;
+    z-index: 9;
+    width: 0px;
+    height: 7px !important;
+    background: #D11919 !important;
+    transition: width 1ms linear;
+    -webkit-border-radius: 0 3px 3px 0 !important;
+    border-radius: 0 3px 3px 0 !important;
+}
+
+.interactionSign {
+    height: 25px;
+    width: 2px;
+    background-color: #efc100;
+    display: inline-flex;
+    position: relative;
+    bottom: 22px;
+    z-index: 10;
+}
+
+
+.audioBarBtns {
+    height: 10px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.audioIcons {
+    margin: auto;
+    position: relative;
+    /width: 90%;
+    / width: 80px;
+    height: 80px;
+    padding-bottom: 90%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+}
+
+.playBtn {
+    background-image: url('../appSrc/icons/play.png');
+}
+
+.pauseBtn {
+    background-image: url('../appSrc/icons/pause.png');
+}
+
+#replayBtn {
+    background-image: url('../appSrc/icons/replay10sec.png');
+    left: 40%;
+}
+
+#nextBtn {
+    background-image: url(../appSrc/icons/next10sec.png);
+    right: 40%
+}
+
+.skipBtn {
+    background-size: 56%;
+    padding-bottom: 110%;
+}
+
+#lessonInfo {
+    position: relative;
+    width: 100%;
+    margin-bottom: 8vh;
+}
+
+#lessonName {
+    Position: relative !important;
+    margin: auto;
+    margin-top: 5%;
+    color: #DDDDDD;
+    font-family: 'Secular One', sans-serif;
+    font-weight: 400;
+    font-size: 130%
+}
+
+#authorName {
+    Position: relative !important margin: auto;
+    color: #DDDDDD;
+    font-family: 'Varela Round', sans-serif;
+    font-size: px;
+    font-size: 100%;
+}
+
+#coursImage {
+    margin: auto;
+    position: relative;
+    width: 35vh;
+    height: 35vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5%;
+    box-shadow: 5px 5px 10px black;
+}
+
+/*lesson interactions*/
+#lessonInteractions {
+    color: #DDDDDD;
+    height: 70vh;
+    margin-top: 5vh;
+    font-family: 'Secular One', sans-serif;
+    display: none;
+}
+
+#branch {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}
+
+#instruction {
+    color: #ED2424;
+    margin: 0;
+    font-size: 2vh;
+}
+
+#question {
+    font-size: 4vh;
+    font-weight: normal;
+}
+
+#answers {
+    margin-top: 0;
+}
+
+.AnsRB {
+    display: block;
+    float: right;
+    font-size: 4.6vw;
+    padding-right: 8%;
+    position: relative;
+    width: 100%;
+    bottom: 3.3vh;
+    margin-bottom: -0.5rem;
+}
+
+.divRB {
+    position: relative;
+    display: inline-block;
+    float: right;
+    width: 100%;
+}
+
+.radio {
+    vertical-align: top;
+    height: 2vh;
+    width: 2vh;
+    float: right;
+}
+
+#multi {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}
+
+
+#checkBtn {
+    font-family: 'Secular One', sans-serif;
+    height: 6vh;
+    width: 18vh;
+    ;
+    border-radius: 5px;
+    background-color: #ED2424;
+    border: none;
+    color: white;
+    display: block;
+    font-size: 2.5vh;
+    position: absolute;
+    left: 0;
+    bottom: 32vh;
+}
+
+    #checkBtn:active {
+        background-color: #c41e1e;
+    }
+
+.checkbox {
+    vertical-align: top;
+    height: 2.2vh;
+    width: 2.2vh;
+    float: right;
+}
+
+.AnsCB {
+    display: block;
+    float: right;
+    font-size: 4.6vw;
+    padding-right: 8%;
+    position: relative;
+    width: 100%;
+    bottom: 3vh;
+    margin-bottom: -0.5rem;
+}
+
+.divCB {
+    position: relative;
+    display: inline-block;
+    float: right;
+    width: 100%;
+}
+
+#open {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}

@@ -5,13 +5,13 @@ var app = angular.module("myApp", ["ngRoute"]);
 app.config(function ($routeProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "lesson.htm",
-            controller: "lessonCtrl"
-        })
+        templateUrl: "lesson.htm",
+        controller: "lessonCtrl"
+    })
         .when("/lesson", {
-            templateUrl: "lesson.htm",
-            controller: "lessonCtrl"
-        });
+        templateUrl: "lesson.htm",
+        controller: "lessonCtrl"
+    });
 });
 
 
@@ -101,12 +101,12 @@ function lessonData(xml) {
         var audioResult = audioNodes.iterateNext();
         while (audioResult) {
             audioSrc += "Podcasts/" + audioResult.childNodes[0].nodeValue + ".mp3";
-            
+
             audioDuration += audioResult.getAttribute('duration');
             audioResult = audioNodes.iterateNext();
         }
         document.getElementById("audioPod").src = audioSrc;
-        
+
         document.getElementById('timeLabel').innerHTML = audioDuration;
 
     }
@@ -115,7 +115,7 @@ function lessonData(xml) {
 
     var interactionsCount = xml.evaluate('count(courses/course[1]/lessons/lesson[1]/interactions/interaction)', xml, null, XPathResult.ANY_TYPE, null);
     console.log("count" + interactionsCount.numberValue);
-    
+
 
     for (var i = 1; i <= interactionsCount.numberValue; i++) {
         console.log("I" + i);
@@ -144,7 +144,7 @@ function interactionSign(timeCodes) {
         var sign = document.createElement("SPAN");
         document.getElementById("progressBar").appendChild(sign);
         sign.classList.add("interactionSign");
-        
+        sign.offsetLeft = -14;
         var percentage = timeCodes[i] * 100 / duration;
         console.log(percentage);
         var position = (percentage * width / 100)-0.2;
@@ -155,138 +155,142 @@ function interactionSign(timeCodes) {
 
 }
 
-function playPauseAudio() {
-    //play/stop the audio. progressbar buffer and time label
-    var timer;
-    var percent = 0;
-    var audio = document.getElementById('audioPod');
-    audio.addEventListener("playing", function (_event) {
-        var duration = audio.duration;
 
-        console.log(duration);
-        advance(duration, audio);
+var prog;
+var progress;
+var increment;
+var percent;
+function playAudio() {
+    var audio = document.getElementById("audioPod");
+    audio.play();
+    var duration = audio.duration;
+    console.log(duration);
 
+    prog = setInterval(advance, 100);
 
-    });
+    progress = document.getElementById("progress");
+    increment = 10 / duration;
+    percent;
+    function advance() {
+        console.log("prog");
 
-    var startTimer = function (duration, element) {
-        if (percent < 100) {
-            timer = setTimeout(function () { advance(duration, element) }, 100);
-
+        if (audio.duration == audio.currentTime) {
+            console.log("done");
+            pauseAudio();
         }
 
+        progressBar(); //progressbar update
+        timeLabel(); //ltime label update
+        interactionCheck(); //check if there is interactions
+        checkIfInBranch(); //check if branch mode
     }
 
-    var advance = function (duration, element) {
-        var progress = document.getElementById("progress");
-        increment = 10 / duration
-        percent = Math.min(increment * element.currentTime * 10, 100);
-        progress.style.width = percent + '%'
-        startTimer(duration, element);
+    document.getElementById("playPauseBtn").classList.remove("playBtn");
+    document.getElementById("playPauseBtn").classList.add("pauseBtn");
+    document.getElementById("playPauseBtn").setAttribute('onclick', 'pauseAudio()');
 
-
-    }
-
-
-    //checking for interactions
-    var intervalInteractions = setInterval(interactionCheck, 1000);
-    function interactionCheck(){
-        
-        console.log("TIME CODES"+interactionsTCArray[z]);
-            if (audio.currentTime > interactionsTCArray[z]) {
-                audio.pause();
-                document.getElementById("interactionSound").play();
-                clearInterval(myVar);
-                clearInterval(interactionCheck);
-                document.getElementById("playPauseBtn").classList.add("playBtn");
-                document.getElementById("playPauseBtn").classList.remove("pauseBtn");
-                z++;  
-                var interactionType = "";
-                path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]";
-                if (xml.evaluate) {
-                    var interactionNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
-                    var interactionResult = interactionNodes.iterateNext();
-                    while (interactionResult) {
-                        interactionType += interactionResult.getAttribute('type');
-                        console.log(interactionType);
-                        interactionResult = interactionNodes.iterateNext();
-                    }
-                }
-                document.getElementById("lessonInfo").style.display = "none";
-                document.getElementById("lessonInteractions").style.display = "block";
-                
-                if (interactionType == "branch") {
-                    getFTC();
-                    branch();
-
-                }
-                if (interactionType == "multi") {
-                    multi();
-                }
-                
-                if (interactionType == "open") {
-                    open();
-                }
-            }
-    }
-
-    //checking if it is an audio branch. if in branch, when the take is over it goes to startAgainFrom
-    var ifBranch = setInterval(checkIfInBranch, 1000);
-    function checkIfInBranch() {
-        if (endOfBranch != null) {
-            console.log("checkif" + endOfBranch);
-            console.log("goes to" + startAgainFrom);
-            if (audio.currentTime > endOfBranch) {
-                audio.currentTime = startAgainFrom;
-                endOfBranch = null;
-            }
-        }
-    }
-
-    var myVar = setInterval(function () {
-      
-        var audioTime = audio.duration - audio.currentTime;
-       
-        var minutes = Math.floor(audioTime / 60);
-        var seconds = Math.floor(audioTime % 60);
-        var secondsTxt = 0;
-        var minutesTxt = 0;
-        if (minutes < 10) {
-            minutesTxt = "0" + minutes.toString();
-        }
-        else {
-            minutesTxt = minutes.toString();
-        }
-        if (seconds < 10) {
-            secondsTxt = "0" + seconds.toString();
-        }
-        else {
-            secondsTxt = seconds.toString();
-        }
-
-        document.getElementById('timeLabel').innerHTML = minutesTxt + ":" + secondsTxt;
-    }, 1000);
-
-
-
-    if (audio.paused) {
-        audio.play();
-        document.getElementById("playPauseBtn").classList.remove("playBtn");
-        document.getElementById("playPauseBtn").classList.add("pauseBtn");
-        clearTimeout(timer);
-
-
-    } else {
-        audio.pause();
-        clearInterval(myVar);
-        clearInterval(intervalInteractions);
-        clearInterval(ifBranch);
-        document.getElementById("playPauseBtn").classList.add("playBtn");
-        document.getElementById("playPauseBtn").classList.remove("pauseBtn");
-        
-
-    }
 }
+
+function pauseAudio() {
+    var audio = document.getElementById("audioPod");
+    audio.pause();
+
+    console.log("dsfsdfs");
+    document.getElementById("playPauseBtn").classList.remove("pauseBtn");
+    document.getElementById("playPauseBtn").classList.add("playBtn");
+    document.getElementById("playPauseBtn").setAttribute('onclick', 'playAudio()');
+
+    clearInterval(prog);
+
+}
+//progressbar update
+function progressBar() {
+    var audio = document.getElementById("audioPod");
+    percent = Math.min(increment * audio.currentTime * 10, 100);
+    progress.style.width = percent + '%';
+
+}
+
+//time label update
+var audioTime;
+var minutes;
+var seconds;
+var secondsTxt;
+var minutesTxt;
+function timeLabel() {
+    var audio = document.getElementById("audioPod");
+    audioTime = audio.duration - audio.currentTime;
+    minutes = Math.floor(audioTime / 60);
+    seconds = Math.floor(audioTime % 60);
+    if (minutes < 10) {
+        minutesTxt = "0" + minutes.toString();
+    }
+    else {
+        minutesTxt = minutes.toString();
+    }
+    if (seconds < 10) {
+        secondsTxt = "0" + seconds.toString();
+    }
+    else {
+        secondsTxt = seconds.toString();
+    }
+    document.getElementById('timeLabel').innerHTML = minutesTxt + ":" + secondsTxt;
+}
+
+//interactions check
+function interactionCheck() {
+    var audio = document.getElementById("audioPod");
+    if (audio.currentTime > interactionsTCArray[z]) {
+        pauseAudio();
+        document.getElementById("interactionSound").play();
+        z++;
+        console.log("Z " + z);
+        var interactionType = "";
+        path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]";
+        if (xml.evaluate) {
+            var interactionNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+            var interactionResult = interactionNodes.iterateNext();
+            while (interactionResult) {
+                interactionType += interactionResult.getAttribute('type');
+                console.log(interactionType);
+                interactionResult = interactionNodes.iterateNext();
+            }
+        }
+        document.getElementById("lessonInfo").style.display = "none";
+        document.getElementById("lessonInteractions").style.display = "block";
+
+        if (interactionType == "branch") {
+
+            branch();
+
+        }
+        if (interactionType == "multi") {
+            multi();
+        }
+
+        if (interactionType == "open") {
+            open();
+        }
+
+        if (interactionType == "rate") {
+            rate();
+        }
+    }
+
+}
+
+//check if we are in branch mode
+function checkIfInBranch() {
+    var audio = document.getElementById("audioPod");
+    if (endOfBranch != null) {
+        console.log("checkif" + endOfBranch);
+        console.log("goes to" + startAgainFrom);
+        if (audio.currentTime > endOfBranch) {
+            audio.currentTime = startAgainFrom;
+            endOfBranch = null;
+        }
+    }
+}    
 
 
 function replay10Sec() {
@@ -343,20 +347,8 @@ function branch() {
     document.getElementById("branch").style.display = "block";
     document.getElementById("checkBtn").setAttribute('onclick', 'checkBranch()');
     //qustion update
-    interQuestion = "";
-    path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/q";
-    if (xml.evaluate) {
-        var interactionNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
-        var interactionResult = interactionNodes.iterateNext();
-        while (interactionResult) {
-            interQuestion += interactionResult.childNodes[0].nodeValue;
-            interactionResult = interactionNodes.iterateNext();
-        }
-    }
-    var scope1 = angular.element(document.getElementById("question")).scope();
-    scope1.q = interQuestion;
-    scope1.$apply();
-    
+    getQ();
+
     var aArray = [];
     //answers
     answersCount = xml.evaluate('count(courses/course[1]/lessons/lesson[1]/interactions/interaction[' + z + ']/a)', xml, null, XPathResult.ANY_TYPE, null);
@@ -385,6 +377,7 @@ function branch() {
         answerRB.id = "RB" + i.toString();
         answerRB.classList.add("radio");
         answerRB.value = i.toString();
+        answerRB.setAttribute('onchange', 'manageBranch(this)');
         document.getElementById("answers").appendChild(answerRB);
 
         var answerLabel = document.createElement("LABEL");
@@ -393,7 +386,7 @@ function branch() {
         answerLabel.id = "branchAns" + i.toString();
         answerLabel.innerHTML = aArray[i - 1];
         document.getElementById("answers").appendChild(answerLabel);
-        
+
         //var br = document.createElement("br");
         //document.getElementById("branch").appendChild(br);
 
@@ -404,7 +397,10 @@ function branch() {
 
 
 function checkBranch() {
-    
+    disableBtn();
+    getFTC();
+
+    var audio = document.getElementById('audioPod');
     for (var i1 = 0; i1 < answersCount.numberValue; i1++) {
         console.log(i1);
         var path = "courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/a[" + (i1 + 1) + "]";
@@ -414,24 +410,41 @@ function checkBranch() {
         console.log("RB" + (i1 + 1));
         var element = document.getElementById("RB" + (i1 + 1));
         if (element.checked == true) {
-            var newCurrentTime = correctResult.getAttribute('jumpTo');
             endOfBranch = correctResult.getAttribute('until');
-            console.log("endofbranch" + endOfBranch);
-            console.log("endof");
-            
+            var newCurrentTime = correctResult.getAttribute('jumpTo');
+            if (newCurrentTime < audio.currentTime) {
+                startAgainFrom = endOfBranch;
+                console.log("blbal " + startAgainFrom);
+                z--;
+            }
+
         }
 
     }
-    var audio = document.getElementById('audioPod');
-    audio.currentTime = newCurrentTime;
+
+
+    audio.currentTime = newCurrentTime; 
+    document.getElementById("answers").innerHTML = "";
     document.getElementById("playPauseBtn").style.opacity = 1;
-    document.getElementById("playPauseBtn").setAttribute('onclick', 'playPauseAudio()');
+    document.getElementById("playPauseBtn").setAttribute('onclick', 'playAudio()');
     document.getElementById("lessonInteractions").style.display = "none";
     document.getElementById("lessonInfo").style.display = "block";
-    playPauseAudio();
+    playAudio();
 }
 
 
+function manageBranch(rb)
+{
+    console.log("dfdf");
+    var bt = document.getElementById('checkBtn');
+
+    if(rb.checked)
+    {
+        bt.disabled = false;    
+        bt.classList.remove("disabled");
+    }
+   
+}
 
 
 
@@ -444,21 +457,9 @@ function multi() {
     document.getElementById("playPauseBtn").style.opacity = 0.5;
     document.getElementById("multi").style.display = "block";
     document.getElementById("checkBtn").setAttribute('onclick', 'checkMulti()');
-    
+
     //qustion update
-    interQuestion = "";
-    path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/q";
-    if (xml.evaluate) {
-        var interactionNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
-        var interactionResult = interactionNodes.iterateNext();
-        while (interactionResult) {
-            interQuestion += interactionResult.childNodes[0].nodeValue;
-            interactionResult = interactionNodes.iterateNext();
-        }
-    }
-    var scope1 = angular.element(document.getElementById("question")).scope();
-    scope1.q = interQuestion;
-    scope1.$apply();
+    getQ();
 
     var aArray = [];
     //answers
@@ -487,6 +488,7 @@ function multi() {
         answerCB.id = "CB" + i.toString();
         answerCB.classList.add("checkbox");
         answerCB.value = i.toString();
+        answerCB.setAttribute('onchange', 'manageMulti(this)');
         divCB.appendChild(answerCB);
 
         var answerLabel = document.createElement("LABEL");
@@ -526,17 +528,21 @@ function checkMulti() {
     }
 
     document.getElementById("lessonInfo").style.display = "none";
+    document.getElementById("answers2").innerHTML = "";
     document.getElementById("multi").style.display = "none";
     afterAnswer(TOF);
 
 }
 
 function afterAnswer(right) {
+
+    disableBtn();
+
     document.getElementById("lessonInteractions").style.display = "none";
     document.getElementById("lessonInfo").style.display = "block";
 
 
-    
+
     var audio = document.getElementById('audioPod');
 
     if (right == true) {
@@ -547,13 +553,34 @@ function afterAnswer(right) {
     }
 
     document.getElementById("playPauseBtn").style.opacity = 1;
-    document.getElementById("playPauseBtn").setAttribute('onclick', 'playPauseAudio()');
-    playPauseAudio();
+    document.getElementById("playPauseBtn").setAttribute('onclick', 'playAudio()');
+    playAudio();
 }
 
 
+function manageMulti(cb)
+{
+    var bt = document.getElementById('checkBtn');
 
-//rate interaction
+    if(cb.checked)
+    {
+        bt.disabled = false;    
+        bt.classList.remove("disabled");
+    }
+    else
+    {
+        for (i1 = 0; i1 < answersCount.numberValue; i1++) {
+            if(document.getElementById("CB" + (i1 + 1)).checked==false)
+                {
+                    bt.disabled=true;
+                    bt.classList.add("disabled");
+                }
+        }
+    }
+}
+
+
+//open answer interaction
 function open()
 {
     document.getElementById("playPauseBtn").removeAttribute("onclick");
@@ -561,6 +588,126 @@ function open()
     document.getElementById("open").style.display = "block";
     document.getElementById("checkBtn").setAttribute('onclick', 'getOpen()');
 
+    getQ();
+
+
+}
+
+function getOpen() {
+
+    disableBtn();
+
+    var studentAnswer = document.getElementById("TextArea1").value;
+    console.log(studentAnswer);
+    document.getElementById("TextArea1").value = "";
+    document.getElementById("open").style.display = "none";
+    document.getElementById("lessonInteractions").style.display = "none";
+    document.getElementById("lessonInfo").style.display = "block";
+    document.getElementById("playPauseBtn").style.opacity = 1;
+    document.getElementById("playPauseBtn").setAttribute('onclick', 'playAudio()');
+    playAudio();
+}
+
+function manage(txt)
+{
+    var bt = document.getElementById('checkBtn');
+    if (txt.value != '') {
+        bt.disabled = false;
+        bt.classList.remove("disabled");
+    }
+    else {
+        bt.disabled = true;
+        bt.classList.add("disabled");
+    }
+}
+
+var max; var min;
+//rate interaction 
+function rate() {
+    document.getElementById("playPauseBtn").removeAttribute("onclick");
+    document.getElementById("playPauseBtn").style.opacity = 0.5;
+    document.getElementById("rate").style.display = "block";
+    document.getElementById("checkBtn").setAttribute('onclick', 'getRate()');
+    getQ();
+
+    rateMinText = "";
+    path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/min/text";
+    var rateMinTextNode = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+    var rateMinTextResult = rateMinTextNode.iterateNext();
+    rateMinText = rateMinTextResult.childNodes[0].nodeValue;
+    var scope1 = angular.element(document.getElementById("minWords")).scope();
+    scope1.minWords = rateMinText;
+    scope1.$apply();
+
+    rateMinNum = "";
+    path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/min/num";
+    var rateMinNumNode = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+    var rateMinNumResult = rateMinNumNode.iterateNext();
+    rateMinNum = rateMinNumResult.childNodes[0].nodeValue;
+    min = parseInt(rateMinNum);
+    var scope2 = angular.element(document.getElementById("minNum")).scope();
+    scope2.minNum = rateMinNum;
+    scope2.$apply();
+    var scope22 = angular.element(document.getElementById("myRange")).scope();
+    scope22.minNum = rateMinNum;
+    scope22.$apply();
+    var scope23 = angular.element(document.getElementById("rateIntput")).scope();
+    scope23.minNum = rateMinNum;
+    scope23.$apply();
+
+    rateMaxText = "";
+    path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/max/text";
+    var rateMaxTextNode = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+    var rateMaxTextResult = rateMaxTextNode.iterateNext();
+    rateMaxText = rateMaxTextResult.childNodes[0].nodeValue;
+    var scope3 = angular.element(document.getElementById("maxWords")).scope();
+    scope3.maxWords = rateMaxText;
+    scope3.$apply();
+
+    rateMaxNum = "";
+    path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/max/num";
+    var rateMaxNumNode = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
+    var rateMaxNumResult = rateMaxNumNode.iterateNext();
+    rateMaxNum = rateMaxNumResult.childNodes[0].nodeValue;
+    max = parseInt(rateMaxNum);
+    var scope4 = angular.element(document.getElementById("maxNum")).scope();
+    scope4.maxNum = rateMaxNum;
+    scope4.$apply();
+    var scope42 = angular.element(document.getElementById("myRange")).scope();
+    scope42.maxNum = rateMaxNum;
+    scope42.$apply();
+
+
+}
+
+
+function getRateValue() {
+    document.getElementById("rateIntput").innerHTML = document.getElementById("myRange").value;
+}
+
+function getRate() {
+    disableBtn();
+
+    var studentRate = document.getElementById("myRange").value;;
+    console.log(studentRate);
+    document.getElementById("rate").style.display = "none";
+    document.getElementById("lessonInteractions").style.display = "none";
+    document.getElementById("lessonInfo").style.display = "block";
+    document.getElementById("playPauseBtn").style.opacity = 1;
+    document.getElementById("playPauseBtn").setAttribute('onclick', 'playAudio()');
+    playAudio();
+}
+
+function manageRate(slider){
+    var bt = document.getElementById('checkBtn');
+    bt.disabled = false;
+    bt.classList.remove("disabled");
+
+}
+
+
+//write the question to label
+function getQ() {
     interQuestion = "";
     path = "/courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/q";
     if (xml.evaluate) {
@@ -577,31 +724,44 @@ function open()
     scope1.$apply();
 }
 
-function getOpen() {
 
-    var studentAnswer = document.getElementById("TextArea1").value;
-    console.log(studentAnswer);
-    document.getElementById("open").style.display = "none";
-    document.getElementById("lessonInteractions").style.display = "none";
-    document.getElementById("lessonInfo").style.display = "block";
-    document.getElementById("playPauseBtn").style.opacity = 1;
-    document.getElementById("playPauseBtn").setAttribute('onclick', 'playPauseAudio()');
-    playPauseAudio();
+function disableBtn(){
+    document.getElementById('checkBtn').classList.add('disabled');
+    document.getElementById('checkBtn').disabled = true;
 }
 
-const position = { x: 0, y: 0 }
-interact('.draggable').draggable({
-    listeners: {
-        start(event) {
-            console.log(event.type, event.target)
-        },
-        move(event) {
-            position.x += event.dx
-            position.y += event.dy
 
-            event.target.style.transform =
-                `translate(${position.x}px, ${position.y}px)`
-        },
-    }
-})
-;
+
+
+
+
+
+
+//for the drag
+
+
+
+
+//const position = { x: 0, y: 0 }
+//interact('.draggable').draggable({
+//    modifiers: [
+//        interact.modifiers.restrictRect({
+//            restriction: 'parent'
+//        })
+//    ],
+//    listeners: {
+//        start(event) {
+//            console.log(event.type, event.target)
+//        },
+//        move(event) {
+//            position.x += event.dx
+//            position.y += event.dy
+//            console.log(position.x)
+//            event.target.style.transform =
+//                `translate(${position.x}px, ${position.y}px)`
+//        },
+//    },
+//    lockAxis: 'x'
+//});
+
+

@@ -7,9 +7,8 @@
     <div id="lessonInteractions">
         <div id="branch">
             <label id="question">{{q}}</label><br />
-            <p id="instruction">בחרו תשובה אחת ולאחר מכן לחצו על אישור</p><br />
+            <p id="instruction">בחרו תשובה אחת ולאחר מכן לחצו על אישור. שימו לב כי התוכן יישתנה בהתאם לתשובתכם ואף קיימת אפשרות כי תחזרו לשמיעה חוזרת</p><br />
             <div id="answers">
-
             </div>
         </div>
         <div id="multi">
@@ -22,10 +21,20 @@
         <div id="open">
             <label id="question">{{q}}</label><br />
             <p id="instruction">כתבו את תשובתיכם ולחצו על אישור</p><br />
-            <textarea id="TextArea1"></textarea>
-            <div id="dragi" class="draggable"></div>
+            <textarea onkeyup="manage(this)" id="TextArea1"></textarea>
         </div>
-        <input id="checkBtn" type="button" value="אישור" />
+        <div id="rate">
+            <label id="question">{{q}}</label><br />
+            <p id="instruction">כתבו את תשובתיכם ולחצו על אישור</p><br />
+            <label id="maxNum">{{maxNum}}</label>
+            <label id="minNum">{{minNum}}</label>                
+            <br />
+            <input type="range" min="{{minNum}}" max="{{maxNum}}" value="{{minNum}}" class="slider1" id="myRange" oninput="getRateValue()" onchange="manageRate(this)" />           
+            <label id="minWords">{{minWords}}</label> <br />
+            <label id="maxWords">{{maxWords}}</label>
+            <label id="rateIntput">{{minNum}}</label>
+        </div>
+        <input class="disabled" id="checkBtn" type="button" value="אישור" disabled/>
 
     </div>
 

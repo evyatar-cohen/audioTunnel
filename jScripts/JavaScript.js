@@ -1,4 +1,4 @@
-﻿loadXml();
+loadXml();
 
 
 var app = angular.module("myApp", ["ngRoute"]);
@@ -179,8 +179,13 @@ function playAudio() {
             pauseAudio();
         }
 
-        progressBar(); //progressbar update
-        timeLabel(); //ltime label update
+        if(onDrag==false)
+        {
+            progressBar(); //progressbar update
+            timeLabel(); //ltime label update
+            
+        }
+
         interactionCheck(); //check if there is interactions
         checkIfInBranch(); //check if branch mode
     }
@@ -316,13 +321,18 @@ function next10Sec() {
 
 
 function seekNext(event) {//click for seek time on progress bar
-    var x = event.clientX-10;
+    var x = event.clientX;
     var width = document.getElementById("progressBackground").offsetWidth;
     console.log(width);
+    console.log(x+"x");
+    document.getElementById("progress").style.width=x+"px";
     var position = Math.floor((x /width * 100) + 1) + 1; //get percentage
     var audio = document.getElementById('audioPod');
     var seeked = position * audio.duration / 100;
     audio.currentTime = seeked;
+    takeHandleToPosition(x);
+    onDrag=false;
+    
 }
 
 
@@ -443,7 +453,7 @@ function manageBranch(rb)
         bt.disabled = false;    
         bt.classList.remove("disabled");
     }
-   
+
 }
 
 
@@ -571,10 +581,10 @@ function manageMulti(cb)
     {
         for (i1 = 0; i1 < answersCount.numberValue; i1++) {
             if(document.getElementById("CB" + (i1 + 1)).checked==false)
-                {
-                    bt.disabled=true;
-                    bt.classList.add("disabled");
-                }
+            {
+                bt.disabled=true;
+                bt.classList.add("disabled");
+            }
         }
     }
 }
@@ -732,50 +742,89 @@ function disableBtn(){
 
 
 
-interact('.resize-drag')
-  .resizable({
+interact('#progress')
+    .resizable({
     // resize from all edges and corners
     edges: { left: false, right: true, bottom: false, top: false },
 
     listeners: {
-      move (event) {
-        var target = event.target
-        var x = (parseFloat(target.getAttribute('data-x')) || 0)
-        var y = (parseFloat(target.getAttribute('data-y')) || 0)
+        move (event) {
+            var target = event.target
+            var x = (parseFloat(target.getAttribute('data-x')) || 0)
+            var y = (parseFloat(target.getAttribute('data-y')) || 0)
 
-        // update the element's style
-        target.style.width = event.rect.width + 'px'
-        target.style.height = event.rect.height + 'px'
+            // update the element's style
+            target.style.width = event.rect.width + 'px'
+            target.style.height = event.rect.height + 'px'
 
-        // translate when resizing from top or left edges
-        x += event.deltaRect.left
-        y += event.deltaRect.top
+            // translate when resizing from top or left edges
+            x += event.deltaRect.left
+            y += event.deltaRect.top
 
-        target.style.webkitTransform = target.style.transform =
-          'translate(' + x + 'px,' + y + 'px)'
+            target.style.webkitTransform = target.style.transform =
+                'translate(' + x + 'px,' + y + 'px)'
 
-        target.setAttribute('data-x', x)
-        target.setAttribute('data-y', y)
-        target.textContent = Math.round(event.rect.width) + '\u00D7' + Math.round(event.rect.height)
-      }
+            target.setAttribute('data-x', x)
+            target.setAttribute('data-y', y)
+            takeHandleToPosition(target.style.width);
+            
+
+        },
+        end(event)
+        {
+            onDrag=false;
+            
+        }
     },
     modifiers: [
-      // keep the edges inside the parent
-      interact.modifiers.restrictEdges({
-        outer: 'parent'
-      }),
+        // keep the edges inside the parent
+        interact.modifiers.restrictEdges({
+            outer: 'parent'
+        }),
 
-      // minimum size
-      interact.modifiers.restrictSize({
-        min: { width: 0, height: 12 }
-      })
+        // minimum size
+        interact.modifiers.restrictSize({
+            min: { width: 2, height: 12 }
+        })
     ],
 
     inertia: true
-  })
+})
 
-
-
+var onDrag=false;
+function takeHandleToPosition(position)
+{
+    onDrag=true;
+    console.log(onDrag);
+    var positionNum=parseInt(position);
+    var width = document.getElementById("progressBackground").offsetWidth;
+    var audio = document.getElementById('audioPod');
+    var percentage = positionNum / width;
+    var seeked=Math.round(percentage*audio.duration);
+    audioTime = audio.duration - seeked;
+    var minutes = Math.floor(audioTime / 60);
+    var seconds = Math.floor(audioTime % 60);
+    
+    
+    
+    if (minutes < 10) {
+        minutesTxt = "0" + minutes.toString();
+    }
+    else {
+        minutesTxt = minutes.toString();
+    }
+    if (seconds < 10) {
+        secondsTxt = "0" + seconds.toString();
+    }
+    else {
+        secondsTxt = seconds.toString();
+    }
+    document.getElementById('timeLabel').innerHTML = minutesTxt + ":" + secondsTxt;
+    
+    
+    
+    
+}
 
 //for the drag
 

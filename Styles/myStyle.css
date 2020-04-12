@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Rubik|Secular+One|Varela+Round&display=swap');
+﻿@import url('https://fonts.googleapis.com/css?family=Rubik|Secular+One|Varela+Round&display=swap');
 
 /*
 
@@ -65,6 +65,7 @@ body {
     background-color: #D11919;
     border-radius: 5px;
     z-index: 5;
+    touch-action: none;
 }
 
 #handle {

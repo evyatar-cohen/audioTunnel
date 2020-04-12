@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Rubik|Secular+One|Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Rubik|Secular+One|Varela+Round&display=swap');
 
 /*
 
@@ -60,7 +60,7 @@ body {
 }
 
 #progress {
-    width: 50%;
+    width: 1px;
     height: 12px;
     background-color: #D11919;
     border-radius: 5px;

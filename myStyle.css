@@ -1,0 +1,397 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Rubik|Secular+One|Varela+Round&display=swap');
+
+/*
+
+כותרות
+font-family: 'Secular One', sans-serif;
+תוכן משתמש
+font-family: 'Varela Round', sans-serif;
+עורך
+font-family: 'Rubik', sans-serif;
+
+*/
+
+body {
+    margin: 0 auto
+}
+
+#container {
+    height: 100%;
+}
+
+#bodyApp {
+    position: relative;
+    background: rgb(1,5,26);
+    background: linear-gradient(0deg, rgba(1,5,26,1) 0%, rgba(21,44,79,1) 100%);
+    height: 100vh;
+    background-size: cover;
+    margin-left: 15px;
+    margin-right: 15px;
+    border: 1px #ffffff00 solid;
+    color: #DDDDDD;
+}
+
+#lessonBackground {
+    padding-top: 10vh;
+    width: inherit;
+    height: inherit;
+    background-image: url('../BGArt/playerBG.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: 1px #ffffff00 solid;
+}
+
+}
+/*audio player panel*/
+#PlayerPanel {
+    position: relative;
+    margin-top: 7vh;
+}
+
+#progressBackground {
+    width: 100%;
+    height: 12px;
+    background-color: gray;
+    display: flex;
+    border-radius: 5px;
+    margin-left: 25px;
+    cursor: pointer;
+    direction: ltr;
+}
+
+#progress {
+    width: 50%;
+    height: 12px;
+    background-color: #D11919;
+    border-radius: 5px;
+    z-index: 5;
+}
+
+#handle {
+    width: 8px;
+    height: 8px;
+    background-color: #D11919;
+    border-radius:50%;
+    margin-left: -5px;
+    transform: scale(3);
+    margin-top: 2px;
+    z-index: 3;
+    
+    
+}
+
+
+.interactionSign {
+    height: 25px;
+    width: 2px;
+    background-color: #efc100;
+    display: inline-flex;
+    position: absolute;
+    z-index: 10;
+    
+}
+
+
+
+.audioBarBtns {
+    height: 10px;
+    position: relative;
+    margin: 0 auto;
+}
+
+.audioIcons {
+    margin: auto;
+    position: relative;
+    /width: 90%;
+    / width: 80px;
+    height: 80px;
+    padding-bottom: 90%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 80%;
+}
+
+.playBtn {
+    background-image: url('../appSrc/icons/play.png');
+}
+
+.pauseBtn {
+    background-image: url('../appSrc/icons/pause.png');
+}
+
+#replayBtn {
+    background-image: url('../appSrc/icons/replay10sec.png');
+    left: 40%;
+}
+
+#nextBtn {
+    background-image: url(../appSrc/icons/next10sec.png);
+    right: 40%
+}
+
+.skipBtn {
+    background-size: 56%;
+    padding-bottom: 110%;
+}
+
+#lessonInfo {
+    position: relative;
+    width: 100%;
+    margin-bottom: 8vh;
+}
+
+#lessonName {
+    Position: relative !important;
+    margin: auto;
+    margin-top: 5%;
+    color: #DDDDDD;
+    font-family: 'Secular One', sans-serif;
+    font-weight: 400;
+    font-size: 130%
+}
+
+#authorName {
+    Position: relative !important margin: auto;
+    color: #DDDDDD;
+    font-family: 'Varela Round', sans-serif;
+    font-size: px;
+    font-size: 100%;
+}
+
+#coursImage {
+    margin: auto;
+    position: relative;
+    width: 35vh;
+    height: 35vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 5%;
+    box-shadow: 5px 5px 10px black;
+}
+
+/*lesson interactions*/
+#lessonInteractions {
+    color: #DDDDDD;
+    height: 70vh;
+    margin-top: 5vh;
+    font-family: 'Secular One', sans-serif;
+    display: none;
+}
+
+#branch {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}
+
+#instruction {
+    color: #ED2424;
+    margin: 0;
+    font-size: 2vh;
+}
+
+#question {
+    font-size: 4vh;
+    font-weight: normal;
+}
+
+#answers {
+    margin-top: 0;
+}
+
+.AnsRB {
+    display: block;
+    float: right;
+    font-size: 4.6vw;
+    padding-right: 8%;
+    position: relative;
+    width: 100%;
+    bottom: 3vh;
+    margin-bottom: -0.5rem;
+}
+
+.divRB {
+    position: relative;
+    display: inline-block;
+    float: right;
+    width: 100%;
+}
+
+.radio {
+    vertical-align: top;
+    height: 2vh;
+    width: 2vh;
+    float: right;
+}
+
+#multi {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}
+
+
+#checkBtn {
+    font-family: 'Secular One', sans-serif;
+    height: 6vh;
+    width: 18vh;
+    ;
+    border-radius: 5px;
+    background-color: #ED2424;
+    border: none;
+    color: white;
+    display: block;
+    font-size: 2.5vh;
+    position: absolute;
+    left: 0;
+    bottom: 32vh;
+}
+
+#checkBtn:active {
+    background-color: #c41e1e;
+}
+
+.disabled{
+    opacity: 0.4;
+}
+.checkbox {
+    vertical-align: top;
+    height: 2.2vh;
+    width: 2.2vh;
+    float: right;
+}
+
+.AnsCB {
+    display: block;
+    float: right;
+    font-size: 4.6vw;
+    padding-right: 8%;
+    position: relative;
+    width: 100%;
+    bottom: 3vh;
+    margin-bottom: -0.5rem;
+}
+
+.divCB {
+    position: relative;
+    display: inline-block;
+    float: right;
+    width: 100%;
+}
+
+#open {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}
+
+#TextArea1{
+    width:90%; 
+    position: relative;
+    right:5%;
+    height:36vh;
+    border-radius: 3px;
+    margin-top:-4%;
+}
+
+
+
+/*rate interaction screen*/
+#rate {
+    display: none;
+    position: relative;
+    margin-top: -10vh;
+}
+
+
+
+/* the slider bar */
+.slider1 {
+    direction: ltr;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 25px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    border-radius: 1px;
+}
+
+.slider1:hover {
+    opacity: 1;
+}
+
+.slider1::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 39px;
+    border-radius: 1px;
+    background: red;
+    cursor: pointer;
+}
+
+.slider1::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+
+}
+
+#minNum{
+    float:left;
+}
+#minWords{ 
+    width: 50%;
+    float:left;
+    margin-top:2%;
+    text-align: left;
+}
+#maxNum{
+    float:right;
+}
+#maxWords{
+    width: 50%;
+    float:right;
+    margin-top:2%;
+}
+
+#rateIntput{
+    width:100%; 
+    text-align:center; 
+    font-size: 10vh;
+}
+
+.slider2 {
+    direction: ltr;
+    width: 100%;
+    height: 15px;
+    -webkit-appearance:none;
+    outline: none;
+    border-radius: 15px;
+    -webkit-appearance: none;
+    box-shadow: inset 0 0 5px rgba(0,0,0,1);
+overflow: hidden;
+
+}
+.slider2::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: red;
+    cursor: pointer;
+    border: 4px solid black;
+    box-shadow: -508px 0 0 500px black; 
+}
+
+.slider2::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50;
+    cursor: pointer;
+
+}

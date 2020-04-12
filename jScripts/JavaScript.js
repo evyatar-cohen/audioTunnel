@@ -777,6 +777,8 @@ interact('#progress')
             var target = event.target
             target.style.width = event.rect.width + 'px'
             takeHandleToPosition(target.style.width);
+            var audio = document.getElementById('audioPod');
+            audio.currentTime=takeHandleToPosition(target.style.width);
             onDrag=false;
             console.log("bye")
             
@@ -807,7 +809,7 @@ function takeHandleToPosition(position)
     var audio = document.getElementById('audioPod');
     var percentage = positionNum / width;
     var seeked=Math.round(percentage*audio.duration);
-    audio.currentTime=seeked;
+    
     audioTime = audio.duration - seeked;
     var minutes = Math.floor(audioTime / 60);
     var seconds = Math.floor(audioTime % 60);
@@ -828,7 +830,7 @@ function takeHandleToPosition(position)
     }
     document.getElementById('timeLabel').innerHTML = minutesTxt + ":" + secondsTxt;
     
-       
+       return seeked;
     
 }
 

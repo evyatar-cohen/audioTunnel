@@ -48,31 +48,38 @@ body {
     margin-top: 7vh;
 }
 
-.progressBar {
-    position: relative;
-    height: 15px;
-    margin-top: 2%;
-    margin-bottom: 1%;
+#progressBackground {
+    width: 100%;
+    height: 12px;
+    background-color: gray;
+    display: flex;
+    border-radius: 5px;
+    margin-left: 25px;
+    cursor: pointer;
     direction: ltr;
 }
 
-#progressBackground {
-    position: relative;
-    width: 100%;
-    height: 7px;
-    background-color: #DDDDDD;
+#progress {
+    width: 50%;
+    height: 12px;
+    background-color: #D11919;
+    border-radius: 5px;
+    z-index: 5;
 }
 
-.progress {
-    position: absolute;
-    z-index: 9;
-    width: 0px;
-    height: 7px !important;
-    background: #D11919 !important;
-    transition: width 1ms linear;
-    -webkit-border-radius: 0 3px 3px 0 !important;
-    border-radius: 0 3px 3px 0 !important;
+#handle {
+    width: 8px;
+    height: 8px;
+    background-color: #D11919;
+    border-radius:50%;
+    margin-left: -5px;
+    transform: scale(3);
+    margin-top: 2px;
+    z-index: 3;
+    
+    
 }
+
 
 .interactionSign {
     height: 25px;
@@ -80,9 +87,10 @@ body {
     background-color: #efc100;
     display: inline-flex;
     position: absolute;
-    bottom: 4px;
     z-index: 10;
+    
 }
+
 
 
 .audioBarBtns {

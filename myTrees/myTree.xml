@@ -11,40 +11,8 @@
                 <title>שירותיות 101 - פרק א'</title>
                 <description>מציאות רבודה, איפה זה פוגש אותנו? מה ההיסטוריה</description>
                 <interactions>
-                  <interaction id="1" type="rate">
-                    <STC>2</STC>
-                    <q>מה מידת הסכמתך עם הנאמר?</q>
-                    <min>
-                      <text>לא מסכים במידה רבה</text>
-                      <num>1</num>
-                    </min>
-                    <max>
-                      <text>מסכים במידה רבה</text>
-                      <num>10</num>
-                    </max>
-                  </interaction>
-                  <interaction id="2" type="open">
-                    <STC>5</STC>
-                    <q>מה דעתך על הנאמר?</q>
-                  </interaction>                
-                  <interaction id="3" type="multi">
-                    <STC>10</STC>
-                    <q>האם אתה מזהה מה התשובה הנכונה?</q>
-                    <a id="1" correct="true">נכון</a>
-                    <a id="2" correct="false">לא נכון</a>
-                    <a id="3" correct="false">לא נכון</a>
-                    <a id="4" correct="false">לא נכון</a>
-                    <a id="5" correct="true">נכון</a>
-                  </interaction>    
-                    <interaction id="4" type="branch">
-                        <STC>23</STC>
-                        <FTC>76</FTC>
-                        <q>איך הייתם מגיבים במצב הזה?</q>
-                        <a id="1" jumpTo="24" until="33.5">מנתק לו בפנים</a>
-                        <a id="2" jumpTo="40" until="55.5">צועק עליו בחזרה</a>
-                        <a id="3" jumpTo="56" until="75">מנסה להרגיע אותו ולפתור לו את הבעיה</a>
-                        <a id="4" jumpTo="0" until="23">טעות - מחזיר אחורה</a>
-                    </interaction>    
+                  
+                    
                 </interactions>
             </lesson>
             <lesson id="2">

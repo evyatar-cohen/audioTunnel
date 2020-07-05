@@ -49,9 +49,9 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: "lessonCtrl"
         })
 
-        .when("/lessonInfo", {
-            templateUrl: "lessonInfo.htm",
-            controller: "lessonInfoCtrl"
+        .when("/LessonInfo", {
+            templateUrl: "LessonInfo.htm",
+            controller: "LessonInfoCtrl"
         })
 
         .when("/EndPage", {
@@ -76,7 +76,7 @@ app.controller("UserEnvCtrl", function ($scope) {
 
 });
 
-app.controller("lessonInfoCtrl", function ($scope) {
+app.controller("LessonInfoCtrl", function ($scope) {
 
 });
 

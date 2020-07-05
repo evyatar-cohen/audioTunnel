@@ -1,6 +1,6 @@
 ﻿<div id="lessonBackground">
     <div id="lessonInfo">
-        <div id="coursImage" style="background-image:url(Logos/{{logo}});"></div>
+        <div id="coursImage" style="background-image:url('../Logos/{{logo}}');"></div>
         <label id="lessonName">{{title}}</label><br />
         <label id="authorName">{{author}}</label><br />
     </div>
@@ -27,16 +27,41 @@
             <label id="question">{{q}}</label><br />
             <p id="instruction">כתבו את תשובתיכם ולחצו על אישור</p><br />
             <label id="maxNum">{{maxNum}}</label>
-            <label id="minNum">{{minNum}}</label>                
+            <label id="minNum">{{minNum}}</label>
             <br />
-            <input type="range" min="{{minNum}}" max="{{maxNum}}" value="{{minNum}}" class="slider1" id="myRange" oninput="getRateValue()" onchange="manageRate(this)" />           
+            <input type="range" min="{{minNum}}" max="{{maxNum}}" value="{{minNum}}" class="slider1" id="myRange" oninput="getRateValue()" onchange="manageRate(this)" />
             <label id="minWords">{{minWords}}</label> <br />
             <label id="maxWords">{{maxWords}}</label>
             <label id="rateIntput">{{minNum}}</label>
         </div>
-        <input class="disabled" id="checkBtn" type="button" value="אישור" disabled/>
-
+        <input class="disabled" id="checkBtn" type="button" value="אישור" disabled />
     </div>
+    <div id="PlayerPanel">
+        <audio id="audioPod" src="" controls="controls" crossOrigin="anonymous" style="display:none;">
+            <source id="audioSource" type="audio/mpeg" />
+        </audio>
+        <audio id="interactionSound" controls="controls" style="display:none">
+            <source src="appSrc/audios/Interaction.mp3" type="audio/mpeg" />
+        </audio>
 
+        <div id="progressBackground" onclick="seekNext(event)">
+            <div id="progress" onclick="seekNext(event)"></div>
+            <div id="handle"></div>
+        </div>
+        <label id="timeLabel"></label>
+        <label id="timeLabel2"></label><br />
+        <div class="row audioBarBtns">
+
+            <div class="col-4" id="cell4btn">
+                <div class="audioIcons  skipBtn" id="nextBtn" onclick="next10Sec()"></div>
+            </div>
+            <div class="col-4" id="cell4btn">
+                <div class="audioIcons playBtn" id="playPauseBtn" onclick="playAudio()"></div>
+            </div>
+            <div class="col-4" id="cell4btn">
+                <div class="audioIcons skipBtn" id="replayBtn" onclick="replay10Sec()"></div>
+            </div>
+        </div>
+    </div>
 
 </div>

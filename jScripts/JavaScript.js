@@ -1,33 +1,102 @@
-﻿loadXml();
+﻿
+
+var myVar;
+
+function myFunction() {
+    document.getElementById("container").style.display = "none";
+    myVar = setTimeout(showPage, 3000);
+}
+
+function showPage() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("container").style.display = "block";
+}
 
 
 var app = angular.module("myApp", ["ngRoute"]);
-app.config(function ($routeProvider) {
+app.config(function ($routeProvider, $locationProvider) {
+    $locationProvider.hashPrefix('');
     $routeProvider
         .when("/", {
-        templateUrl: "lesson.htm",
-        controller: "lessonCtrl"
-    })
+            templateUrl: "Login.htm",
+            controller: "LoginCtrl"
+        })
+
+        .when("/Login", {
+            templateUrl: "Login.htm",
+            controller: "LoginCtrl"
+        })
+
+        .when("/Code", {
+            templateUrl: "CodePage.htm",
+            controller: "CodeCtrl"
+            
+        })
+
+        .when("/CoursePage", {
+            templateUrl: "CoursePage.htm",
+            controller: "CoursePageCtrl"
+        })
+
+        .when("/UserEnv", {
+            templateUrl: "UserEnv.htm",
+            controller: "UserEnvCtrl"
+        })
+
+
         .when("/lesson", {
-        templateUrl: "lesson.htm",
-        controller: "lessonCtrl"
-    });
+            templateUrl: "lesson.htm",
+            controller: "lessonCtrl"
+        })
+
+        .when("/lessonInfo", {
+            templateUrl: "lessonInfo.htm",
+            controller: "lessonInfoCtrl"
+        })
+
+        .when("/EndPage", {
+            templateUrl: "EndPage.htm",
+            controller: "EndPageCtrl"
+        })
+        ;
+});
+app.controller("LoginCtrl", function ($scope) {
+
+});
+
+app.controller("CodeCtrl", function ($scope) {
+
+});
+
+app.controller("CoursePageCtrl", function ($scope) {
+
+});
+
+app.controller("UserEnvCtrl", function ($scope) {
+
+});
+
+app.controller("lessonInfoCtrl", function ($scope) {
+
 });
 
 
-
 app.controller("lessonCtrl", function ($scope) {
-    $scope.title = lessonTitle;
+    loadXml();
+    console.log(courseLogo);
+    //$scope.title = lessonTitle;
     $scope.author = authorName;
     $scope.logo = courseLogo;
     //$scope.time = audioDuration;
     //$scope.src = audioSrc;
     $scope.question = interQuestion;
+});
 
+app.controller("EndPageCtrl", function ($scope) {
 
 });
 
-var courseLogo = "";
+var courseLogo;
 var lessonTitle = "";
 var authorName = "";
 var audioDuration="";
@@ -41,6 +110,10 @@ var startAgainFrom; //go this sec when finish branch
 
 
 function loadXml() {
+    console.log("loadXML1");
+    if (document.getElementById("audioPod")) {
+
+        console.log("loadXML2");
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -49,16 +122,18 @@ function loadXml() {
         }
     };
     xhttp.open("GET", "myTrees/myTree.xml", true);
-    xhttp.send();
+        xhttp.send();
+    }
 }
 
 function lessonData(xml) {
 
-    //if(user already listened this lesson)
-    //{
-    document.getElementById("nextBtn").removeAttribute("onclick");
-    document.getElementById("nextBtn").style.opacity = 0.5;
-    //}
+    if (document.getElementById("nextBtn")) {
+        document.getElementById("nextBtn").removeAttribute("onclick");
+        document.getElementById("nextBtn").style.opacity = 0.5;
+    }
+  
+
     console.log(xml);
     //lesson title
     path = "/courses/course[1]/lessons/lesson[1]/title";
@@ -66,10 +141,16 @@ function lessonData(xml) {
         var titleNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var titleResult = titleNodes.iterateNext();
         while (titleResult) {
-            lessonTitle += titleResult.childNodes[0].nodeValue;
+            lessonTitle += decodeURIComponent(titleResult.childNodes[0].nodeValue);
             titleResult = titleNodes.iterateNext();
+            
         }
     }
+    console.log(lessonTitle);
+    var titleScope1 = angular.element(document.getElementById("lessonName")).scope();
+    titleScope1.title = lessonTitle;
+    titleScope1.$apply();
+
 
     //course author
     path = "/courses/course[1]/author";
@@ -81,18 +162,24 @@ function lessonData(xml) {
             authorResult = authorNodes.iterateNext();
         }
     }
+    var authorScope1 = angular.element(document.getElementById("authorName")).scope();
+    authorScope1.author = authorName;
+    authorScope1.$apply();
 
     //course logo
     path = "/courses/course[1]/logo";
     if (xml.evaluate) {
-        var logoNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);      
+        var logoNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var logoResult = logoNodes.iterateNext();
-        console.log(logoResult);
         while (logoResult) {
-            courseLogo += logoResult.childNodes[0].nodeValue;
+            courseLogo = logoResult.childNodes[0].nodeValue;
             logoResult = logoNodes.iterateNext();
         }
     }
+    console.log(logoResult);
+    var logoScope1 = angular.element(document.getElementById("coursImage")).scope();
+    logoScope1.logo = courseLogo;
+    logoScope1.$apply();
 
     //lesson audio
     path = "/courses/course[1]/lessons/lesson[1]/audio";
@@ -100,7 +187,7 @@ function lessonData(xml) {
         var audioNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var audioResult = audioNodes.iterateNext();
         while (audioResult) {
-            audioSrc += "Podcasts/" + audioResult.childNodes[0].nodeValue + ".mp3";
+            audioSrc += "Podcasts/" + audioResult.childNodes[0].nodeValue;
 
             audioDuration += audioResult.getAttribute('duration');
             audioResult = audioNodes.iterateNext();
@@ -108,6 +195,7 @@ function lessonData(xml) {
         document.getElementById("audioPod").src = audioSrc;
 
         document.getElementById('timeLabel').innerHTML = audioDuration;
+        document.getElementById("timeLabel2").innerHTML="00:00";
 
     }
 
@@ -183,7 +271,7 @@ function playAudio() {
         {
             progressBar(); //progressbar update
             timeLabel(); //ltime label update
-            
+
         }
 
         interactionCheck(); //check if there is interactions
@@ -218,28 +306,55 @@ function progressBar() {
 
 //time label update
 var audioTime;
+var audioTime2;
 var minutes;
+var minutes2;
 var seconds;
+var seconds2;
 var secondsTxt;
+var secondsTxt2;
 var minutesTxt;
+var minutesTxt2;
 function timeLabel() {
     var audio = document.getElementById("audioPod");
     audioTime = audio.duration - audio.currentTime;
+    audioTime2=audio.currentTime;
     minutes = Math.floor(audioTime / 60);
+    minutes2 = Math.floor(audioTime2 / 60);
     seconds = Math.floor(audioTime % 60);
+    seconds2 = Math.floor(audioTime2 % 60);
     if (minutes < 10) {
-        minutesTxt = "0" + minutes.toString();
+        minutesTxt = "0" + minutes.toString();         
     }
     else {
-        minutesTxt = minutes.toString();
+        minutesTxt = minutes.toString();  
     }
     if (seconds < 10) {
-        secondsTxt = "0" + seconds.toString();
+        secondsTxt = "0" + seconds.toString();   
     }
     else {
-        secondsTxt = seconds.toString();
+        secondsTxt = seconds.toString();       
+    }
+
+    if(minutes2<10)
+    {
+        minutesTxt2 = "0" + minutes2.toString();
+    }
+    else
+    {
+        minutesTxt2 = minutes2.toString();
+    }
+
+    if(seconds2<10)
+    {
+        secondsTxt2 = "0" + seconds2.toString();           
+    }
+    else
+    {
+        secondsTxt2 = seconds2.toString();
     }
     document.getElementById('timeLabel').innerHTML = minutesTxt + ":" + secondsTxt;
+    document.getElementById('timeLabel2').innerHTML = minutesTxt2 + ":" + secondsTxt2;
 }
 
 //interactions check
@@ -329,12 +444,18 @@ function seekNext(event) {//click for seek time on progress bar
     var position = Math.floor((x /width * 100) + 1) + 1; //get percentage
     var audio = document.getElementById('audioPod');
     var seeked = position * audio.duration / 100;
+    if(seeked>audio.duration)
+        {
+            seeked=audio.duration;
+        }
     audio.currentTime = seeked;
-    
+    console.log(seeked);
+    console.log("CT"+audio.currentTime);
+
     takeHandleToPosition(x);
     onDrag=false;
-    
-    
+
+
 }
 
 
@@ -407,33 +528,27 @@ function branch() {
     }
 }
 
-
+var chosedTB;
 function checkBranch() {
     disableBtn();
     getFTC();
-
-    var audio = document.getElementById('audioPod');
-    for (var i1 = 0; i1 < answersCount.numberValue; i1++) {
-        console.log(i1);
-        var path = "courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/a[" + (i1 + 1) + "]";
+    var chosedTbNum = chosedTB[2];
+    console.log(chosedTbNum);
+    var path = "courses/course[1]/lessons/lesson[1]/interactions/interaction[" + z + "]/a[" + chosedTbNum+"]";
         var aNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var correctResult = aNodes.iterateNext();
-        console.log("JampTo"+correctResult.getAttribute('jumpTo'));
-        console.log("RB" + (i1 + 1));
-        var element = document.getElementById("RB" + (i1 + 1));
-        if (element.checked == true) {
-            endOfBranch = correctResult.getAttribute('until');
-            var newCurrentTime = correctResult.getAttribute('jumpTo');
-            if (newCurrentTime < audio.currentTime) {
+        console.log("JampTo" + correctResult.getAttribute('jumpTo'));
+        var newCurrentTime = correctResult.getAttribute('jumpTo');
+        endOfBranch = correctResult.getAttribute('until');
+
+    var audio = document.getElementById('audioPod');
+   
+
+            if (newCurrentTime < Math.floor(audio.currentTime)) {
                 startAgainFrom = endOfBranch;
-                console.log("blbal " + startAgainFrom);
+                console.log("startAgainFrom " + startAgainFrom);
                 z--;
             }
-
-        }
-
-    }
-
 
     audio.currentTime = newCurrentTime; 
     document.getElementById("answers").innerHTML = "";
@@ -449,12 +564,13 @@ function manageBranch(rb)
 {
     console.log("dfdf");
     var bt = document.getElementById('checkBtn');
-
+    console.log(rb.id);
     if(rb.checked)
     {
         bt.disabled = false;    
         bt.classList.remove("disabled");
     }
+    chosedTB = rb.id;
 
 }
 
@@ -769,7 +885,7 @@ interact('#progress')
             target.setAttribute('data-x', x)
             target.setAttribute('data-y', y)
             takeHandleToPosition(target.style.width);
-            
+
 
         },
         end(event)
@@ -781,13 +897,14 @@ interact('#progress')
             audio.currentTime=takeHandleToPosition(target.style.width);
             onDrag=false;
             console.log("bye")
-            
+
         }
     },
     modifiers: [
         // keep the edges inside the parent
         interact.modifiers.restrictEdges({
             outer: 'parent'
+
         }),
 
         // minimum size
@@ -809,13 +926,15 @@ function takeHandleToPosition(position)
     var audio = document.getElementById('audioPod');
     var percentage = positionNum / width;
     var seeked=Math.round(percentage*audio.duration);
-    
+
     audioTime = audio.duration - seeked;
+    audioTime2=seeked;
     var minutes = Math.floor(audioTime / 60);
     var seconds = Math.floor(audioTime % 60);
-    
-    
-    
+    var minutes2 = Math.floor(audioTime2 / 60);
+    var seconds2 = Math.floor(audioTime2 % 60);
+
+
     if (minutes < 10) {
         minutesTxt = "0" + minutes.toString();
     }
@@ -824,15 +943,39 @@ function takeHandleToPosition(position)
     }
     if (seconds < 10) {
         secondsTxt = "0" + seconds.toString();
+        if(seconds<0)
+            {
+                seconds=0;
+            }
     }
     else {
         secondsTxt = seconds.toString();
     }
+    
+    if(minutes2<10)
+    {
+        minutesTxt2 = "0" + minutes2.toString();
+    }
+    else
+    {
+        minutesTxt2 = minutes2.toString();
+    }
+
+    if(seconds2<10)
+    {
+        secondsTxt2 = "0" + seconds2.toString();           
+    }
+    else
+    {
+        secondsTxt2 = seconds2.toString();
+    }
+    
     document.getElementById('timeLabel').innerHTML = minutesTxt + ":" + secondsTxt;
-    
-       return seeked;
-    
+    document.getElementById('timeLabel2').innerHTML = minutesTxt2 + ":" + secondsTxt2;
+    return seeked;
+
 }
+
 
 
 

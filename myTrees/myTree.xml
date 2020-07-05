@@ -2,78 +2,42 @@
 <courses>
     <course id="1" code="101">
         <title>חדשנות בלמידה במאה ה-21</title>
-        <author>נאור אדיר</author>
-        <logo>2.jpeg</logo>
+        <author>אסף זיתוני</author>
+        <logo>1.jpeg</logo>
         <description>הצטרפו אלינו לפודקאסט המציג את היכולות שלנו לבצע למידה אקטיבית באמצעות שמע בלבד. תנו לאוזניים שלכם לקחת אתכם איתי ותבינו שה אולי לא כל כך מסובך כמו שזה נשמע</description>
-        <lessons>
-            <lesson id="1">
-                <audio duration="01:26">1</audio>
-                <title>שירותיות 101 - פרק א'</title>
-                <description>מציאות רבודה, איפה זה פוגש אותנו? מה ההיסטוריה</description>
-                <interactions>
-                  
-                </interactions>
-            </lesson>
-            <lesson id="2">
-                <audio duration="03:02">1</audio>
-                <title>שירותי ענן, טוב ללמידה?</title>
-                <description>גשדגשדגדש</description>
-                <interactions>
-                    <interaction id="1" type="multi">
-                        <TC>10</TC>
-                        <q>איפה אבל של רגב?</q>
-                        <a id="1" correct="true">הוא מת</a>
-                        <a id="2" correct="false">לא מת</a>
-                        <a id="3" correct="false">לא מת</a>
-                        <a id="4" correct="false">לא מת</a>
-                        <a id="5" correct="true">הוא מת</a>
-                    </interaction>
-                </interactions>
-            </lesson>
-            <lesson id="3">
-                <audio duration="03:02">1</audio>
-                <title>למידה אפקטיבית בעזרת סאונד</title>
-                <description>גשדגשדגדש</description>
-            </lesson>
-            <lesson id="4">
-                <audio duration="03:02">1</audio>
-                <title>הלומדה הראשונה בעולם</title>
-                <description>גשדגשדגדש</description>
-            </lesson>
-            <lesson id="5">
-                <audio duration="03:02">1</audio>
-                <title>גוגל הפכו אותנו לסטודנטים טובים</title>
-                <description>גשדגשדגדש</description>
-            </lesson>
-            <lesson id="6">
-                <audio duration="03:02">1</audio>
-                <title>פודקאסטים, רק ההתחלה</title>
-                <description>גשדגשדגדש</description>
-            </lesson>
-            <lesson id="7">
-                <audio duration="03:02">1</audio>
-                <title>מציאות מדומה והפוטנציאל הגלום </title>
-                <description>גשדגשדגדש</description>
-            </lesson>
-        </lessons>
-    </course>
-    <course id="2" code="102">
-        <title>קורס מספר 2</title>
-        <author>ד"ר זיתוני</author>
-        <logo>2.jpeg</logo>
-        <description>הצטרפו אלינו לפודקאסט המציג את היכולות שלנו לבצע למידה אקטיבית באמצעות שמע בלבד. תנו לאוזניים שלכם לקחת אתכם איתי ותבינו שה אולי לא כל כך מסובך כמו שזה נשמע</description>
-        <lessons>
-            <lesson id="1">
-                <audio duration="03:02">1</audio>
-                <title>ahgur</title>
-                <description>מציאות רבודה, איפה זה פוגש אותנו? מה ההיסטוריה</description>
-            </lesson>
-            <lesson id="2">
-                <audio duration="03:02">1</audio>
-                <title>שירותי ענן, טוב ללמידה?</title>
-                <description>גשדגשדגדש</description>
-            </lesson>
-        </lessons>
+      <lessons>
+       <lesson id="15" published="False">
+         <audio duration="08:32">3.mp3</audio>
+        <title>מה זה פה</title>
+        <description>%d7%9c%d7%92%d7%99%d7%94%d7%a0%d7%95%d7%9d+%d7%a9%d7%9c+%d7%94%d7%90%d7%93%d7%95%d7%9e%d7%99%d7%9d</description>
+        <files>
+          <filesCounter>0</filesCounter>
+        </files>
+        <interactions>
+          <interactionsCounter>3</interactionsCounter>
+          <interaction id="1" type="branch">
+            <STC>12</STC>
+            <FTC>30</FTC>
+            <q>הסתעפות</q>
+            <a id="1" jumpTo="12" until="14">1</a>
+            <a id="2" jumpTo="14" until="21">2</a>
+            <a id="3" jumpTo="21" until="30">3</a>
+          </interaction>
+          <interaction id="2" type="open">
+            <STC>38</STC>
+            <q>שאלה פתוחה</q>
+          </interaction>
+          <interaction id="3" type="multi">
+            <STC>38</STC>
+            <q>ברירה</q>
+            <a id="1" correct="false">1</a>
+            <a id="2" correct="false">2</a>
+            <a id="3" correct="false">3</a>
+            <a id="4" correct="true">3</a>
+          </interaction>
+        </interactions>
+       </lesson>
+      </lessons>
     </course>
 </courses>
 

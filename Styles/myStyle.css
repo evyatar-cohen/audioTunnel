@@ -555,6 +555,7 @@ a{
     background-repeat: no-repeat;
     border-radius: 5%;
     box-shadow: 5px 5px 10px black;
+    background-image: url(../courseLogos/1.jpeg);
 }
 
 /*/lesson interactions/*/

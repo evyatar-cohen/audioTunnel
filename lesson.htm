@@ -4,7 +4,7 @@
         <label id="lessonName">{{title}}</label><br />
         <label id="authorName">{{author}}</label><br />
     </div>
-      <a href="#LessonInfo "> <button id="StartBtn"></button></a>
+    <a href="#LessonInfo "><button id="blabla"></button></a>
     <div id="lessonInteractions">
         <div id="branch">
             <label id="question">{{q}}</label><br />
@@ -30,7 +30,29 @@
             <label id="maxNum">{{maxNum}}</label>
             <label id="minNum">{{minNum}}</label>
             <br />
-            <input type="range" min="{{minNum}}" max="{{maxNum}}" value="{{minNum}}" class="slider1" id="myRange" oninput="getRateValue()" onchange="manageRate(this)" />
+            <div dir="ltr" id="mainRange">
+                <input type="range" min="{{minNum}}" max="{{maxNum}}" value="{{minNum}}" id="myRange" />
+                
+                <div id="rangeProgress"></div>
+            </div>
+            <script>
+
+                var slider = document.getElementById("myRange");
+                
+                var RangeProgress = document.getElementById("rangeProgress");
+                slider.oninput = function () {
+                    console.log(slider.max - slider.min);
+                    var cal = (this.value - slider.min) * 100 / (slider.max - slider.min);
+                    console.log(this.value);
+                    console.log(cal);                 
+                    RangeProgress.style.width = cal + '%';
+                    document.getElementById("rateIntput").innerHTML = document.getElementById("myRange").value;
+                    var bt = document.getElementById('checkBtn');
+                    bt.disabled = false;
+                    bt.classList.remove("disabled");
+                }
+
+            </script>
             <label id="minWords">{{minWords}}</label> <br />
             <label id="maxWords">{{maxWords}}</label>
             <label id="rateIntput">{{minNum}}</label>
@@ -45,10 +67,13 @@
             <source src="appSrc/audios/Interaction.mp3" type="audio/mpeg" />
         </audio>
 
-        <div id="progressBackground" onclick="seekNext(event)">
-            <div id="progress" onclick="seekNext(event)"></div>
-            <div id="handle"></div>
-        </div>
+        <div id="progressBackground">
+            <div id="bufferProgress">
+                <div id="progress" onclick="seekNext(event)"></div>
+                <div id="handle"></div>
+            </div>
+        </div>            
+        
         <label id="timeLabel"></label>
         <label id="timeLabel2"></label><br />
         <div class="row audioBarBtns">

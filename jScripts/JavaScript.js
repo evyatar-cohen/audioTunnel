@@ -1,6 +1,5 @@
 ﻿
 
-var myVar;
 
 function myFunction() {
     document.getElementById("container").style.display = "none";
@@ -77,7 +76,9 @@ app.controller("UserEnvCtrl", function ($scope) {
 });
 
 app.controller("LessonInfoCtrl", function ($scope) {
-
+    var titleScope1 = angular.element(document.getElementById("lessonName")).scope();
+    titleScope1.title = "";
+    titleScope1.$apply();
 });
 
 
@@ -108,6 +109,18 @@ var interQuestion = "";
 var endOfBranch; //second to finish the branch take
 var startAgainFrom; //go this sec when finish branch
 
+$(document).ready(function () {
+    $('#progress').dblclick(function (e) {
+        e.preventDefault();
+    });
+});
+
+document.addEventListener('dblclick', function (event) {
+    alert("Double-click disabled!");
+    event.preventDefault();
+    event.stopPropagation();
+}, true //capturing phase!!
+);
 
 function loadXml() {
     console.log("loadXML1");
@@ -125,6 +138,11 @@ function loadXml() {
         xhttp.send();
     }
 }
+
+$('#progress').bind('click', function (e) {
+    e.preventDefault();
+});
+
 
 function lessonData(xml) {
 
@@ -249,6 +267,8 @@ var progress;
 var increment;
 var percent;
 function playAudio() {
+    interact('#progress')
+        .resizable(true);
     var audio = document.getElementById("audioPod");
     audio.play();
     var duration = audio.duration;
@@ -296,11 +316,90 @@ function pauseAudio() {
     clearInterval(prog);
 
 }
+
+var lastSecondHeared = 0;
+var tempPercent=0;
 //progressbar update
 function progressBar() {
     var audio = document.getElementById("audioPod");
+    tempPercent = lastSecondHeared;
     percent = Math.min(increment * audio.currentTime * 10, 100);
-    progress.style.width = percent + '%';
+    if (percent > tempPercent) {
+        lastSecondHeared = percent;
+    }
+    document.getElementById("bufferProgress").style.width = percent + '%';
+    var bufferWidth = document.getElementById('bufferProgress').clientWidth;
+    console.log("bufferPercent " + parseFloat(document.getElementById("bufferProgress").style.width) + " " + percent);
+    progress.style.width = bufferWidth + "px";
+    if (percent < tempPercent) {
+        document.getElementById("bufferProgress").style.width = lastSecondHeared + '%';
+    }
+    interact('#progress')
+        .resizable({
+            // resize from all edges and corners
+            edges: { left: false, right: true, bottom: false, top: false },
+
+            listeners: {
+                start(event) {
+                    var target = event.target;
+                    var audio = document.getElementById('audioPod');
+                    //startPointDrag = audio.currentTime;
+                    console.log("startpointdrag " + startPointDrag);
+
+                },
+                move(event) {
+                    var target = event.target;
+                    var x = (parseFloat(target.getAttribute('data-x')) || 0);
+                    var y = (parseFloat(target.getAttribute('data-y')) || 0);
+
+                    // update the element's style
+                    target.style.width = event.rect.width + 'px';
+                    target.style.height = event.rect.height + 'px';
+
+                    // translate when resizing from top or left edges
+                    x += event.deltaRect.left
+                    y += event.deltaRect.top
+
+                    target.style.webkitTransform = target.style.transform =
+                        'translate(' + x + 'px,' + y + 'px)';
+                    //document.getElementById("handle").style.left = x + 'px';
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                    var audio = document.getElementById('audioPod');
+                    lastSeconedHeard = audio.currentTime;
+                    takeHandleToPosition(target.style.width);
+
+
+                },
+                end(event) {
+                    var target = event.target;
+
+                    target.style.width = event.rect.width + 'px';
+                    takeHandleToPosition(target.style.width);
+                    console.log("bye");
+                    var audio = document.getElementById('audioPod');
+                    audio.currentTime = takeHandleToPosition(target.style.width);
+                    onDrag = false;
+                    //console.log(audio.currentTime);
+                    //if (audio.currentTime > startPointDrag) {
+                    //    audio.currentTime = lastSeconedHeard;
+                    //}
+                }
+            },
+            modifiers: [
+                interact.modifiers.restrictEdges({
+                    outer: 'parent'
+                })
+                ,
+                // minimum size
+                interact.modifiers.restrictSize({
+                    min: { width: 2, height: 12 }
+                })
+            ]
+            ,
+
+            inertia: true
+        })
 
 }
 
@@ -359,6 +458,7 @@ function timeLabel() {
 
 //interactions check
 function interactionCheck() {
+ 
     var audio = document.getElementById("audioPod");
     if (audio.currentTime > interactionsTCArray[z]) {
         pauseAudio();
@@ -380,19 +480,34 @@ function interactionCheck() {
         document.getElementById("lessonInteractions").style.display = "block";
 
         if (interactionType == "branch") {
-
+            interact('#progress')
+                .resizable(false);
+            document.getElementById("replayBtn").removeAttribute("onclick");
+            document.getElementById("replayBtn").style.opacity = 0.5;
             branch();
 
         }
         if (interactionType == "multi") {
+            interact('#progress')
+                .resizable(false);
+            document.getElementById("replayBtn").removeAttribute("onclick");
+            document.getElementById("replayBtn").style.opacity = 0.5;
             multi();
         }
 
         if (interactionType == "open") {
+            interact('#progress')
+                .resizable(false);
+            document.getElementById("replayBtn").removeAttribute("onclick");
+            document.getElementById("replayBtn").style.opacity = 0.5;
             open();
         }
 
         if (interactionType == "rate") {
+            interact('#progress')
+                .resizable(false);
+               document.getElementById("replayBtn").removeAttribute("onclick");
+    document.getElementById("replayBtn").style.opacity = 0.5;
             rate();
         }
     }
@@ -436,24 +551,25 @@ function next10Sec() {
 
 
 function seekNext(event) {//click for seek time on progress bar
+    
     var x = event.clientX;
+    console.log("progWidth:" + document.getElementById("bufferProgress").style.width + " x:" + x);
     var width = document.getElementById("progressBackground").offsetWidth;
     console.log(width);
-    console.log(x+"x");
-    document.getElementById("progress").style.width=x+"px";
-    var position = Math.floor((x /width * 100) + 1) + 1; //get percentage
-    var audio = document.getElementById('audioPod');
-    var seeked = position * audio.duration / 100;
-    if(seeked>audio.duration)
-        {
-            seeked=audio.duration;
-        }
-    audio.currentTime = seeked;
-    console.log(seeked);
-    console.log("CT"+audio.currentTime);
+    console.log(x + "x");
+    if (x < document.getElementById("bufferProgress").style.width) {
+        document.getElementById("progress").style.width = x + "px";
+        var position = Math.floor((x / width * 100) + 1) + 1; //get percentage
+        var audio = document.getElementById('audioPod');
+        var seeked = position * audio.duration / 100;
+        audio.currentTime = seeked;
+        console.log(seeked);
+        console.log("CT" + audio.currentTime);
 
-    takeHandleToPosition(x);
-    onDrag=false;
+        takeHandleToPosition(x);
+        onDrag = false;
+    }
+
 
 
 }
@@ -547,7 +663,7 @@ function checkBranch() {
             if (newCurrentTime < Math.floor(audio.currentTime)) {
                 startAgainFrom = endOfBranch;
                 console.log("startAgainFrom " + startAgainFrom);
-                z--;
+                z=z-2;
             }
 
     audio.currentTime = newCurrentTime; 
@@ -555,6 +671,7 @@ function checkBranch() {
     document.getElementById("playPauseBtn").style.opacity = 1;
     document.getElementById("playPauseBtn").setAttribute('onclick', 'playAudio()');
     document.getElementById("lessonInteractions").style.display = "none";
+    document.getElementById("branch").style.display = "none";
     document.getElementById("lessonInfo").style.display = "block";
     playAudio();
 }
@@ -632,6 +749,7 @@ function multi() {
 
 
 function checkMulti() {
+
     var countTrue = 0;
     for (var i1 = 0; i1 < answersCount.numberValue; i1++) {
         console.log(i1);
@@ -687,24 +805,24 @@ function afterAnswer(right) {
 
 
 function manageMulti(cb)
-{
-    var bt = document.getElementById('checkBtn');
-
-    if(cb.checked)
-    {
-        bt.disabled = false;    
+{  var bt = document.getElementById('checkBtn');
+    var counter = 0;
+    console.log("manageM");
+    for (i1 = 1; i1 <= answersCount.numberValue; i1++) {
+        console.log((document.getElementById("CB" + i1).checked).toString());
+        if (document.getElementById("CB" + (i1)).checked == true) {
+                counter++;
+            }         
+    }
+    if (counter > 0) {
+        bt.disabled = false;
         bt.classList.remove("disabled");
     }
-    else
-    {
-        for (i1 = 0; i1 < answersCount.numberValue; i1++) {
-            if(document.getElementById("CB" + (i1 + 1)).checked==false)
-            {
-                bt.disabled=true;
-                bt.classList.add("disabled");
-            }
-        }
+    else {
+        bt.disabled = true;
+        bt.classList.add("disabled");
     }
+    console.log(counter);
 }
 
 
@@ -859,69 +977,16 @@ function disableBtn(){
 }
 
 
+var startPointDrag;
+var lastSeconedHeard;
 
-interact('#progress')
-    .resizable({
-    // resize from all edges and corners
-    edges: { left: false, right: true, bottom: false, top: false },
-
-    listeners: {
-        move (event) {
-            var target = event.target
-            var x = (parseFloat(target.getAttribute('data-x')) || 0)
-            var y = (parseFloat(target.getAttribute('data-y')) || 0)
-
-            // update the element's style
-            target.style.width = event.rect.width + 'px'
-            target.style.height = event.rect.height + 'px'
-
-            // translate when resizing from top or left edges
-            x += event.deltaRect.left
-            y += event.deltaRect.top
-
-            target.style.webkitTransform = target.style.transform =
-                'translate(' + x + 'px,' + y + 'px)'
-
-            target.setAttribute('data-x', x)
-            target.setAttribute('data-y', y)
-            takeHandleToPosition(target.style.width);
-
-
-        },
-        end(event)
-        {
-            var target = event.target
-            target.style.width = event.rect.width + 'px'
-            takeHandleToPosition(target.style.width);
-            var audio = document.getElementById('audioPod');
-            audio.currentTime=takeHandleToPosition(target.style.width);
-            onDrag=false;
-            console.log("bye")
-
-        }
-    },
-    modifiers: [
-        // keep the edges inside the parent
-        interact.modifiers.restrictEdges({
-            outer: 'parent'
-
-        }),
-
-        // minimum size
-        interact.modifiers.restrictSize({
-            min: { width: 2, height: 12 }
-        })
-    ],
-
-    inertia: true
-})
 
 var onDrag=false;
 function takeHandleToPosition(position)
 {
     onDrag=true;
     console.log(onDrag);
-    var positionNum=parseInt(position);
+    var positionNum = parseInt(position);
     var width = document.getElementById("progressBackground").offsetWidth;
     var audio = document.getElementById('audioPod');
     var percentage = positionNum / width;

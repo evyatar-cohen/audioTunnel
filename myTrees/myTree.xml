@@ -7,35 +7,66 @@
         <description>הצטרפו אלינו לפודקאסט המציג את היכולות שלנו לבצע למידה אקטיבית באמצעות שמע בלבד. תנו לאוזניים שלכם לקחת אתכם איתי ותבינו שה אולי לא כל כך מסובך כמו שזה נשמע</description>
       <lessons>
        <lesson id="15" published="False">
-         <audio duration="08:32">3.mp3</audio>
-        <title>מה זה פה</title>
-        <description>%d7%9c%d7%92%d7%99%d7%94%d7%a0%d7%95%d7%9d+%d7%a9%d7%9c+%d7%94%d7%90%d7%93%d7%95%d7%9e%d7%99%d7%9d</description>
-        <files>
-          <filesCounter>0</filesCounter>
-        </files>
-        <interactions>
-          <interactionsCounter>3</interactionsCounter>
-          <interaction id="1" type="branch">
-            <STC>12</STC>
-            <FTC>30</FTC>
-            <q>הסתעפות</q>
-            <a id="1" jumpTo="12" until="14">1</a>
-            <a id="2" jumpTo="14" until="21">2</a>
-            <a id="3" jumpTo="21" until="30">3</a>
-          </interaction>
-          <interaction id="2" type="open">
-            <STC>38</STC>
-            <q>שאלה פתוחה</q>
-          </interaction>
-          <interaction id="3" type="multi">
-            <STC>38</STC>
-            <q>ברירה</q>
-            <a id="1" correct="false">1</a>
-            <a id="2" correct="false">2</a>
-            <a id="3" correct="false">3</a>
-            <a id="4" correct="true">3</a>
-          </interaction>
-        </interactions>
+         <audio duration="08:33">Recording (65)_3_130720-183308.mp3</audio>
+         <title>%d7%a9%d7%99%d7%a2%d7%95%d7%a8+1+-+%d7%9c%d7%9e%d7%99%d7%93%d7%94+%d7%91%d7%90%d7%9e%d7%a6%d7%a2%d7%95%d7%aa+%d7%a9%d7%9e%d7%a2+</title>
+         <description>%d7%9e%d7%a6%d7%99%d7%90%d7%95%d7%aa+%d7%a8%d7%91%d7%95%d7%93%d7%94%2c+%d7%90%d7%99%d7%a4%d7%94+%d7%96%d7%94+%d7%a4%d7%95%d7%92%d7%a9+%d7%90%d7%95%d7%aa%d7%a0%d7%95%3f%2c+%d7%9e%d7%94+%d7%94%d7%94%d7%99%d7%a1%d7%98%d7%95%d7%a8%d7%99%d7%94+%d7%a9%d7%9c+%d7%94%d7%98%d7%9b%d7%a0%d7%95%d7%9c%d7%95%d7%92%d7%99%d7%94+%d7%95%d7%90%d7%99%d7%9a+%d7%91%d7%9b%d7%9c%d7%9c+%d7%96%d7%94+%d7%a7%d7%a9%d7%95%d7%a8+%d7%9c%d7%9c%d7%9e%d7%99%d7%93%d7%94%3f+%d7%aa%d7%a6%d7%98%d7%a8%d7%a4%d7%95+%d7%90%d7%9c%d7%99%d7%a0%d7%95+%d7%9c%d7%a7%d7%95%d7%a8%d7%a1+%d7%9e%d7%a8%d7%aa%d7%a7+%d7%a9%d7%9e%d7%93%d7%91%d7%a8+%d7%a2%d7%9c+%d7%94%d7%a9%d7%99%d7%9c%d7%95%d7%91+%d7%94%d7%a0%d7%94%d7%93%d7%a8+%d7%91%d7%99%d7%9f+%d7%98%d7%9b%d7%a0%d7%95%d7%9c%d7%95%d7%92%d7%99%d7%95%d7%aa+%d7%9e%d7%aa%d7%a7%d7%93%d7%9e%d7%95%d7%aa+%d7%9c%d7%91%d7%99%d7%9f+%d7%94%d7%9e%d7%95%d7%97+%d7%94%d7%90%d7%a0%d7%95%d7%a9%d7%99.++</description>
+         <files>
+           <filesCounter>0</filesCounter>
+         </files>
+         <interactions>
+           <interactionsCounter>7</interactionsCounter>
+           <interaction id="1" type="open">
+             <STC>33</STC>
+             <q>מה עולה לכם לראש כאשר אתם שומעים את המושג "למידה באמצעות שמע?"</q>
+           </interaction>
+           <interaction id="2" type="rate">
+             <STC>85</STC>
+             <q>עד כמה לדעתכם למידה באמצעות שמע יכולה להיות אפקטיבית </q>
+             <min>
+               <text>לא מסכימה כלל</text>
+               <num>1</num>
+             </min>
+             <max>
+               <text>מסכימה מאוד</text>
+               <num>10</num>
+             </max>
+           </interaction>
+           <interaction id="3" type="branch">
+             <STC>165</STC>
+             <FTC>176</FTC>
+             <q>בחרו באיזו דרך נאור יגיד את המשפט הבא "לא הבנתי מה אני אמור לעשות עכשיו"</q>
+             <a id="1" jumpTo="165" until="169">מבולבל</a>
+             <a id="2" jumpTo="169" until="173">מבין</a>
+             <a id="3" jumpTo="173" until="176">מתוסכל</a>
+           </interaction>
+           <interaction id="4" type="branch">
+             <STC>176</STC>
+             <FTC>177</FTC>
+             <q>לחצו כן כדי לשמוע את המשפט באופן שונה, לחיצה על המענה ”לא“ תפעיל את המשך הפודקאסט.</q>
+             <a id="1" jumpTo="163" until="164">כן</a>
+             <a id="2" jumpTo="176" until="177">לא</a>
+           </interaction>
+           <interaction id="5" type="multi">
+             <STC>273</STC>
+             <q>באילו מקרים משתמשים בשמע כעזר ללמידה </q>
+             <a id="1" correct="true">בחינות של עולים חדשים</a>
+             <a id="2" correct="true">הקראה לאנשים שלא יודעים לקרוא</a>
+             <a id="3" correct="false">לומדה במקום קורס פרונטלי</a>
+             <a id="4" correct="false">לומדה במקום קורס מקוון עם מרצה</a>
+           </interaction>
+           <interaction id="6" type="open">
+             <STC>373</STC>
+             <q>אתם עושים משהו נוסף כרגע חוץ מהאזנה לפודקאסט?</q>
+           </interaction>
+           <interaction id="7" type="multi">
+             <STC>475</STC>
+             <q>מה יהפוך את הפודקאסט שלכם לטוב? </q>
+             <a id="1" correct="true">תכנון עמוק, חלקים קצרים, זמן סביר, קריינות רהוטה והומור.</a>
+             <a id="2" correct="false">אלתורים, חלקים קצרים ושימוש בסלנג.</a>
+             <a id="3" correct="false">זמן הפרק צריך להיות שעה וחצי לפחות, משפטים ארוכים ומבטא אקזוטי.</a>
+             <a id="4" correct="false">זמן הפרק צריך להיות שעה וחצי לפחות, משפטים ארוכים ומבטא אקזוטי.</a>
+           </interaction>
+         </interactions>
        </lesson>
       </lessons>
     </course>

@@ -159,7 +159,7 @@ function lessonData(xml) {
         var titleNodes = xml.evaluate(path, xml, null, XPathResult.ANY_TYPE, null);
         var titleResult = titleNodes.iterateNext();
         while (titleResult) {
-            lessonTitle += decodeURIComponent(titleResult.childNodes[0].nodeValue);
+            lessonTitle +=titleResult.childNodes[0].nodeValue;
             titleResult = titleNodes.iterateNext();
             
         }
